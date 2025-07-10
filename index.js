@@ -2,6 +2,20 @@
 // let secondNumber = 5
 // let operator = "+";
 
+const display = document.querySelector('.display');
+const numbers = document.querySelector('.calculator-numbers');
+const operations = document.querySelector('.calculator-operations');
+
+numbers.addEventListener('click', function (e){
+    console.log(e.target);
+    console.log(e.target.dataset.number);
+})
+
+operations.addEventListener('click', function (e){
+    console.log(e.target);
+    console.log(e.target.dataset.operation);
+})
+
 function operate(num1, num2, operator) {
     if (operator == "+") {
         return add(num1, num2);
