@@ -9,10 +9,12 @@
     margin: 0 auto;
     max-width: 300px;
     padding: 20px;
+    height: 100vh;
     
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap:10px;
 }
 
