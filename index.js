@@ -1,20 +1,58 @@
-// let firstNumber = 10
-// let secondNumber = 5
-// let operator = "+";
+const calculatorState = {
+    firstNumber: '',
+    secondNumber: '',
+    operator: '',
+    isOperatorClicked: false,
+}
 
 const display = document.querySelector('.display');
 const numbers = document.querySelector('.calculator-numbers');
 const operations = document.querySelector('.calculator-operations');
 
-numbers.addEventListener('click', function (e){
-    console.log(e.target);
-    console.log(e.target.dataset.number);
-})
+numbers.addEventListener('click', displayNumber);
 
-operations.addEventListener('click', function (e){
-    console.log(e.target);
-    console.log(e.target.dataset.operation);
-})
+operations.addEventListener('click', displayOperator)
+
+function displayEquation() {
+    const { firstNumber, operator, secondNumber } = calculatorState;
+
+    if (operator && secondNumber) {
+        display.innerHTML = `${firstNumber} ${operator} ${secondNumber}`;
+    } else if (operator) {
+        display.innerHTML = `${firstNumber} ${operator}`;
+    } else {
+        display.innerHTML = firstNumber || '00';
+    }
+    console.log(calculatorState);
+}
+
+function displayOperator(event) {
+    if (event.target.dataset.operation !== undefined) {
+        const operator = event.target.dataset.operation;
+
+        if (['+', '-', '/','x'].includes(operator)) {
+            calculatorState.operator = operator;
+            calculatorState.isOperatorClicked = true;
+        }
+    }
+
+    displayEquation();
+}
+
+function displayNumber(event) {
+    if (event.target.dataset.number !== undefined) {
+        const number = event.target.dataset.number;
+
+        if (!calculatorState.isOperatorClicked) {
+            calculatorState.firstNumber += number;
+        } else {
+            calculatorState.secondNumber += number;
+        }
+        displayEquation();
+    }
+
+    displayEquation();
+}
 
 function operate(num1, num2, operator) {
     if (operator == "+") {

@@ -7,7 +7,7 @@
 
 .calculator {
     margin: 0 auto;
-    max-width: 300px;
+    max-width: 350px;
     padding: 20px;
     height: 100vh;
     
@@ -24,6 +24,7 @@
     color: white;
 
     width: 100%;
+    padding: 10px 5px;
 
 }
 .calculator-buttons {
@@ -54,4 +55,7 @@ button {
     background-color: black;
     color:white;
     border: 1px solid white;
+
+    height: 50px;
+    width: 50px;
 }
