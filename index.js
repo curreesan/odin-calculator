@@ -8,10 +8,39 @@ const calculatorState = {
 const display = document.querySelector('.display');
 const numbers = document.querySelector('.calculator-numbers');
 const operations = document.querySelector('.calculator-operations');
+const equalsTo = document.querySelector('.equals');
+const clear = document.querySelector('.clear');
+const backspace = document.querySelector('.backspace');
 
 numbers.addEventListener('click', displayNumber);
-
 operations.addEventListener('click', displayOperator)
+equalsTo.addEventListener('click', displayEqualsTo)
+clear.addEventListener('click', clearEquation)
+backspace.addEventListener('click', clearLastDigit)
+
+function clearLastDigit() {
+     let { firstNumber, operator, secondNumber } = calculatorState;
+
+     if (secondNumber != '') {
+         calculatorState.secondNumber = secondNumber.slice(0, -1);
+
+     } else if (operator != '') {
+            calculatorState.operator = '';
+
+     } else if (firstNumber != '') {
+        calculatorState.firstNumber = firstNumber.slice(0,-1);
+     };
+
+     displayEquation();
+}
+
+function clearEquation() {
+    calculatorState.firstNumber = '';
+    calculatorState.secondNumber = '';
+    calculatorState.operator = '';
+    calculatorState.isOperatorClicked = false;
+    displayEquation();
+}
 
 function displayEquation() {
     const { firstNumber, operator, secondNumber } = calculatorState;
@@ -26,6 +55,26 @@ function displayEquation() {
     console.log(calculatorState);
 }
 
+function displayEqualsTo (event) {
+    console.log(event.target);
+    const { firstNumber, operator, secondNumber } = calculatorState;
+
+    if (firstNumber && secondNumber && operator) {
+        const first = Number(firstNumber);
+        const second = Number(secondNumber);
+        const answer = operate(first, second, operator);
+        console.log(answer);
+
+        resetAfterMath(answer);
+    }
+}
+
+function resetAfterMath(answer) {
+    clearEquation();
+    calculatorState.firstNumber = answer;
+    displayEquation();
+}
+
 function displayOperator(event) {
     if (event.target.dataset.operation !== undefined) {
         const operator = event.target.dataset.operation;
@@ -33,10 +82,10 @@ function displayOperator(event) {
         if (['+', '-', '/','x'].includes(operator)) {
             calculatorState.operator = operator;
             calculatorState.isOperatorClicked = true;
+            displayEquation();
         }
     }
 
-    displayEquation();
 }
 
 function displayNumber(event) {
@@ -50,8 +99,6 @@ function displayNumber(event) {
         }
         displayEquation();
     }
-
-    displayEquation();
 }
 
 function operate(num1, num2, operator) {
@@ -59,7 +106,7 @@ function operate(num1, num2, operator) {
         return add(num1, num2);
     } else if (operator == "-") {
         return subtract(num1, num2);
-    } else if (operator == "*") {
+    } else if (operator == "x") {
         return multiply(num1, num2);
     } else if (operator == "/") {
         return divide(num1, num2);
