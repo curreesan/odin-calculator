@@ -39,6 +39,7 @@ function clearEquation() {
     calculatorState.secondNumber = '';
     calculatorState.operator = '';
     calculatorState.isOperatorClicked = false;
+
     displayEquation();
 }
 
@@ -55,7 +56,7 @@ function displayEquation() {
     console.log(calculatorState);
 }
 
-function displayEqualsTo (event) {
+function displayEqualsTo(event) {
     console.log(event.target);
     const { firstNumber, operator, secondNumber } = calculatorState;
 
@@ -66,12 +67,23 @@ function displayEqualsTo (event) {
         console.log(answer);
 
         resetAfterMath(answer);
+        displayEquation();
     }
 }
 
 function resetAfterMath(answer) {
     clearEquation();
     calculatorState.firstNumber = answer;
+}
+
+function singlePairEvaluation(event) {
+    const first = Number(calculatorState.firstNumber);
+    const second = Number(calculatorState.secondNumber);
+    const ans = operate(first,second, calculatorState.operator);
+    resetAfterMath(ans);
+    console.log(event.target.dataset.operation);
+    calculatorState.operator = event.target.dataset.operation;
+    calculatorState.isOperatorClicked = true;
     displayEquation();
 }
 
@@ -79,10 +91,13 @@ function displayOperator(event) {
     if (event.target.dataset.operation !== undefined) {
         const operator = event.target.dataset.operation;
 
-        if (['+', '-', '/','x'].includes(operator)) {
+        if (['+', '-', '/','x'].includes(operator) && !calculatorState.secondNumber) {
             calculatorState.operator = operator;
             calculatorState.isOperatorClicked = true;
             displayEquation();
+        } else if (calculatorState.isOperatorClicked && ['+', '-', '/','x'].includes(operator) && calculatorState.firstNumber && calculatorState.secondNumber) {
+            // console.log(event.target.dataset.operation);
+            singlePairEvaluation(event);
         }
     }
 
