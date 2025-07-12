@@ -40,6 +40,7 @@ function clearEquation() {
     calculatorState.secondNumber = '';
     calculatorState.operator = '';
     calculatorState.isOperatorClicked = false;
+    calculatorState.isResultDisplayed = false;
 
     displayEquation();
 }
@@ -137,8 +138,16 @@ function operate(num1, num2, operator) {
     } else if (operator == "x") {
         return multiply(num1, num2);
     } else if (operator == "/") {
+        if(checkDivideByZero(num2)) return;
         return divide(num1, num2);
     }
+}
+
+function checkDivideByZero(number) {
+    if (number == 0) {
+        alert("Divisible by 0 is NOT possible!!")
+        return true;
+    } else return false;
 }
 
 //Arithmetic Functions
