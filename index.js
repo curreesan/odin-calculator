@@ -61,30 +61,34 @@ function displayEqualsTo(event) {
     const { firstNumber, operator, secondNumber } = calculatorState;
 
     if (firstNumber && secondNumber && operator) {
-        const first = Number(firstNumber);
-        const second = Number(secondNumber);
-        const answer = operate(first, second, operator);
-        console.log(answer);
-
+        const answer = doMath();
         resetAfterMath(answer);
         displayEquation();
     }
 }
 
-function resetAfterMath(answer) {
+function doMath() {
+     const { firstNumber, operator, secondNumber } = calculatorState;
+    const first = Number(firstNumber);
+    const second = Number(secondNumber);
+
+    return operate(first, second, operator);
+}
+
+function resetAfterMath(answer, operator = '') {
     clearEquation();
     calculatorState.firstNumber = answer;
+
+    if (operator != '') {
+        calculatorState.isOperatorClicked = true;
+        calculatorState.operator = operator;
+    }
 }
 
 function singlePairEvaluation(event) {
-    const first = Number(calculatorState.firstNumber);
-    const second = Number(calculatorState.secondNumber);
-    const ans = operate(first,second, calculatorState.operator);
-    resetAfterMath(ans);
-    console.log(event.target.dataset.operation);
-    calculatorState.operator = event.target.dataset.operation;
-    calculatorState.isOperatorClicked = true;
-    displayEquation();
+    const op = event.target.dataset.operation;
+    const ans = doMath();
+    resetAfterMath(ans, op);
 }
 
 function displayOperator(event) {
@@ -94,11 +98,11 @@ function displayOperator(event) {
         if (['+', '-', '/','x'].includes(operator) && !calculatorState.secondNumber) {
             calculatorState.operator = operator;
             calculatorState.isOperatorClicked = true;
-            displayEquation();
         } else if (calculatorState.isOperatorClicked && ['+', '-', '/','x'].includes(operator) && calculatorState.firstNumber && calculatorState.secondNumber) {
             // console.log(event.target.dataset.operation);
             singlePairEvaluation(event);
         }
+        displayEquation();
     }
 
 }
