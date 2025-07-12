@@ -3,6 +3,7 @@ const calculatorState = {
     secondNumber: '',
     operator: '',
     isOperatorClicked: false,
+    isResultDisplayed: false,
 }
 
 const display = document.querySelector('.display');
@@ -78,6 +79,8 @@ function doMath() {
 function resetAfterMath(answer, operator = '') {
     clearEquation();
     calculatorState.firstNumber = answer;
+    calculatorState.isResultDisplayed = true;
+    console.log(calculatorState);
 
     if (operator != '') {
         calculatorState.isOperatorClicked = true;
@@ -114,7 +117,13 @@ function clickNumber(event) {
         const number = event.target.dataset.number;
 
         if (!calculatorState.isOperatorClicked) {
-            calculatorState.firstNumber += number;
+            if (calculatorState.isResultDisplayed) {
+                calculatorState.firstNumber = '';
+                calculatorState.firstNumber += number;
+                calculatorState.isResultDisplayed = false;
+            } else {
+                calculatorState.firstNumber += number;
+            }
         } else {
             calculatorState.secondNumber += number;
         }
