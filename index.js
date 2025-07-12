@@ -57,8 +57,7 @@ function displayEquation() {
     console.log(calculatorState);
 }
 
-function clickEqualsTo(event) {
-    console.log(event.target);
+function clickEqualsTo() {
     const { firstNumber, operator, secondNumber } = calculatorState;
 
     if (firstNumber && secondNumber && operator) {
@@ -88,10 +87,9 @@ function resetAfterMath(answer, operator = '') {
     }
 }
 
-function singlePairEvaluation(event) {
-    const op = event.target.dataset.operation;
+function singlePairEvaluation(currentOperator) {
     const ans = doMath();
-    resetAfterMath(ans, op);
+    resetAfterMath(ans, currentOperator);
 }
 
 function clickOperator(event) {
@@ -103,9 +101,9 @@ function clickOperator(event) {
         if (['+', '-', '/','x'].includes(operator) && !secondNumber) {
             calculatorState.operator = operator;
             calculatorState.isOperatorClicked = true;
+
         } else if (calculatorState.isOperatorClicked && ['+', '-', '/','x'].includes(operator) && firstNumber && secondNumber) {
-            // console.log(event.target.dataset.operation);
-            singlePairEvaluation(event);
+            singlePairEvaluation(operator);
         }
         displayEquation();
     }
