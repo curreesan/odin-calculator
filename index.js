@@ -12,9 +12,9 @@ const equalsTo = document.querySelector('.equals');
 const clear = document.querySelector('.clear');
 const backspace = document.querySelector('.backspace');
 
-numbers.addEventListener('click', displayNumber);
-operations.addEventListener('click', displayOperator)
-equalsTo.addEventListener('click', displayEqualsTo)
+numbers.addEventListener('click', clickNumber);
+operations.addEventListener('click', clickOperator)
+equalsTo.addEventListener('click', clickEqualsTo)
 clear.addEventListener('click', clearEquation)
 backspace.addEventListener('click', clearLastDigit)
 
@@ -56,7 +56,7 @@ function displayEquation() {
     console.log(calculatorState);
 }
 
-function displayEqualsTo(event) {
+function clickEqualsTo(event) {
     console.log(event.target);
     const { firstNumber, operator, secondNumber } = calculatorState;
 
@@ -91,14 +91,16 @@ function singlePairEvaluation(event) {
     resetAfterMath(ans, op);
 }
 
-function displayOperator(event) {
+function clickOperator(event) {
     if (event.target.dataset.operation !== undefined) {
         const operator = event.target.dataset.operation;
+        const firstNumber = calculatorState.firstNumber;
+        const secondNumber = calculatorState.secondNumber;
 
-        if (['+', '-', '/','x'].includes(operator) && !calculatorState.secondNumber) {
+        if (['+', '-', '/','x'].includes(operator) && !secondNumber) {
             calculatorState.operator = operator;
             calculatorState.isOperatorClicked = true;
-        } else if (calculatorState.isOperatorClicked && ['+', '-', '/','x'].includes(operator) && calculatorState.firstNumber && calculatorState.secondNumber) {
+        } else if (calculatorState.isOperatorClicked && ['+', '-', '/','x'].includes(operator) && firstNumber && secondNumber) {
             // console.log(event.target.dataset.operation);
             singlePairEvaluation(event);
         }
@@ -107,7 +109,7 @@ function displayOperator(event) {
 
 }
 
-function displayNumber(event) {
+function clickNumber(event) {
     if (event.target.dataset.number !== undefined) {
         const number = event.target.dataset.number;
 
