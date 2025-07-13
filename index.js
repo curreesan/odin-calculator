@@ -45,7 +45,7 @@ function clickDecimal(event) {
         calculatorState.secondNumber += decimal;
         calculatorState.isSecondNumberDecimal = true;
     }
-    
+
     displayEquation();
 
 }
@@ -86,8 +86,8 @@ function clearEquation() {
 
 function displayEquation() {
     const { firstNumber, operator, secondNumber } = calculatorState;
-    const firstNo = firstNumber || '00';
-    const secondNo = secondNumber || '';
+    const firstNo = firstNumber === '' ? '0' : Number(firstNumber).toString();
+    const secondNo = secondNumber === '' ? '' : Number(secondNumber).toString();
     console.log(firstNo, secondNo);
 
     if (operator && secondNo) {
