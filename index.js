@@ -44,12 +44,18 @@ function clearLastDigit() {
      let { firstNumber, operator, secondNumber } = calculatorState;
 
      if (secondNumber != '') {
+        if (secondNumber.endsWith('.')) {
+            calculatorState.isSecondNumberDecimal = false;
+        }
          calculatorState.secondNumber = secondNumber.slice(0, -1);
 
      } else if (operator != '') {
             calculatorState.operator = '';
 
      } else if (firstNumber != '') {
+        if (firstNumber.endsWith('.')) {
+            calculatorState.isFirstNumberDecimal = false;
+        }
         calculatorState.firstNumber = firstNumber.slice(0,-1);
      };
 
@@ -101,7 +107,7 @@ function doMath() {
 
 function resetAfterMath(answer, operator = '') {
     clearEquation();
-    calculatorState.firstNumber = answer;
+    calculatorState.firstNumber = answer.toString();
     calculatorState.isResultDisplayed = true;
     console.log(calculatorState);
 
@@ -161,7 +167,7 @@ function operate(num1, num2, operator) {
     } else if (operator == "x") {
         return multiply(num1, num2);
     } else if (operator == "/") {
-        if(checkDivideByZero(num2)) return;
+        if(checkDivideByZero(num2)) return '0';
         return divide(num1, num2);
     }
 }
