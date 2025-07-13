@@ -32,13 +32,21 @@ function clickDecimal(event) {
     const isSecondNumberDecimal = calculatorState.isSecondNumberDecimal;
 
     if (!operator && !isFirstNumberDecimal) {
+        if (firstNumber == '') {
+            calculatorState.firstNumber += 0;
+        }
         calculatorState.firstNumber += decimal;
         calculatorState.isFirstNumberDecimal = true;
 
     } else if (operator && !isSecondNumberDecimal) {
+        if (secondNumber == '') {
+            calculatorState.secondNumber +=0;
+        }
         calculatorState.secondNumber += decimal;
         calculatorState.isSecondNumberDecimal = true;
     }
+    
+    displayEquation();
 
 }
 
@@ -78,8 +86,8 @@ function clearEquation() {
 
 function displayEquation() {
     const { firstNumber, operator, secondNumber } = calculatorState;
-    const firstNo = firstNumber ? parseFloat(firstNumber).toString() : '00';
-    const secondNo = secondNumber ? parseFloat(secondNumber).toString() : '';
+    const firstNo = firstNumber || '00';
+    const secondNo = secondNumber || '';
     console.log(firstNo, secondNo);
 
     if (operator && secondNo) {
