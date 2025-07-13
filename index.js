@@ -4,6 +4,8 @@ const calculatorState = {
     operator: '',
     isOperatorClicked: false,
     isResultDisplayed: false,
+    isFirstNumberDecimal:false,
+    isSecondNumberDecimal:false,
 }
 
 const display = document.querySelector('.display');
@@ -12,12 +14,31 @@ const operations = document.querySelector('.calculator-operations');
 const equalsTo = document.querySelector('.equals');
 const clear = document.querySelector('.clear');
 const backspace = document.querySelector('.backspace');
+const decimal = document.querySelector('.decimal');
 
 numbers.addEventListener('click', clickNumber);
-operations.addEventListener('click', clickOperator)
-equalsTo.addEventListener('click', clickEqualsTo)
-clear.addEventListener('click', clearEquation)
-backspace.addEventListener('click', clearLastDigit)
+operations.addEventListener('click', clickOperator);
+equalsTo.addEventListener('click', clickEqualsTo);
+clear.addEventListener('click', clearEquation);
+backspace.addEventListener('click', clearLastDigit);
+decimal.addEventListener('click', clickDecimal);
+
+function clickDecimal(event) {
+    let { firstNumber, operator, secondNumber } = calculatorState;
+    const decimal = event.target.dataset.operation;
+    const isFirstNumberDecimal = calculatorState.isFirstNumberDecimal;
+    const isSecondNumberDecimal = calculatorState.isSecondNumberDecimal;
+
+    if (!operator && !isFirstNumberDecimal) {
+        calculatorState.firstNumber += decimal;
+        calculatorState.isFirstNumberDecimal = true;
+
+    } else if (operator && !isSecondNumberDecimal) {
+        calculatorState.secondNumber += decimal;
+        calculatorState.isSecondNumberDecimal = true;
+    }
+
+}
 
 function clearLastDigit() {
      let { firstNumber, operator, secondNumber } = calculatorState;
@@ -41,6 +62,8 @@ function clearEquation() {
     calculatorState.operator = '';
     calculatorState.isOperatorClicked = false;
     calculatorState.isResultDisplayed = false;
+    calculatorState.isFirstNumberDecimal = false;
+    calculatorState.isSecondNumberDecimal = false;
 
     displayEquation();
 }
@@ -165,4 +188,6 @@ function multiply(a, b) {
 
 function divide(a, b) {
     return a / b;
-}
+} 
+
+displayEquation();
