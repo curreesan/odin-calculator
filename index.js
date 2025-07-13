@@ -23,6 +23,8 @@ clear.addEventListener('click', clearEquation);
 backspace.addEventListener('click', clearLastDigit);
 decimal.addEventListener('click', clickDecimal);
 
+displayEquation();
+
 function clickDecimal(event) {
     let { firstNumber, operator, secondNumber } = calculatorState;
     const decimal = event.target.dataset.operation;
@@ -76,13 +78,16 @@ function clearEquation() {
 
 function displayEquation() {
     const { firstNumber, operator, secondNumber } = calculatorState;
+    const firstNo = firstNumber ? parseFloat(firstNumber).toString() : '00';
+    const secondNo = secondNumber ? parseFloat(secondNumber).toString() : '';
+    console.log(firstNo, secondNo);
 
-    if (operator && secondNumber) {
-        display.innerHTML = `${firstNumber} ${operator} ${secondNumber}`;
+    if (operator && secondNo) {
+        display.innerHTML = `${firstNo} ${operator} ${secondNo}`;
     } else if (operator) {
-        display.innerHTML = `${firstNumber} ${operator}`;
+        display.innerHTML = `${firstNo} ${operator}`;
     } else {
-        display.innerHTML = firstNumber || '00';
+        display.innerHTML = firstNo;
     }
     console.log(calculatorState);
 }
@@ -102,7 +107,11 @@ function doMath() {
     const first = Number(firstNumber);
     const second = Number(secondNumber);
 
-    return operate(first, second, operator);
+    const result = operate(first, second, operator);
+    if (result && !Number.isInteger(result)) {
+        return Number(result.toFixed(8));
+    }
+    return result;
 }
 
 function resetAfterMath(answer, operator = '') {
@@ -195,5 +204,3 @@ function multiply(a, b) {
 function divide(a, b) {
     return a / b;
 } 
-
-displayEquation();
